@@ -36,8 +36,8 @@
                                     echo '<option value="">选择活动</option>';
                                     foreach ($list1 as $k => $v) {
                                         // var_dump($list1);exit;
-                                        $show = 1;
-                                        if ($show == 1) {
+                                        $showlist = 1;
+                                        if ($showlist == 1) {
                                             if ($activity_id == $k) {
                                                 $sel = 'selected';
                                             } else {
@@ -81,45 +81,45 @@
                     <thead>
                     <tr>
                         <th style="width:10%">序号</th>
-                        <th style="width:11%" >微信名</th>
-                        <th style="width:10%">性别</th>
+                        <th style="width:20%" >微信名</th>
+                        <th style="width:10%" >性别</th>
                         <th style="width:30%">身份号</th>
+                        <th style="width:10%">摇动总次数</th>
                         <th style="width:20%">活动</th>
-                        <th style="width:15%">摇动总次数</th>
                     </tr>
                     </thead>
                     <tbody>
                     <?php
-                    //print_r($list);
+//                    print_r($show);
                     // dump($list[0]->activity);exit;
-                    foreach ($list as $i => $row) {
-                        // var_dump($row);exit();
+//                    dump($show);exit;
+
+                    foreach ($show as $i => $row) {
+//                         var_dump($row);exit();
                         // dump($row->activity->activityname);exit;
                         ?>
                         <tr>
                             <td><?php echo $i + $start + 1 ?></td>
                             <td><?php echo stripslashes(str_replace($nickname, '<font color=red>' . $nickname . '</font>', $row['nickname'])); ?></td>
-
                             <td><?php  stripslashes(str_replace($sex, '<font color=red>' . $sex . '</font>', $row['sex'])); ?>
                                 <?php switch ($row['sex']) {
-                                case '0':
-                                    echo "其他";
-                                    break;
-                                case '1':
-                                    echo "男";
-                                    break;
-                                case '2':
-                                    echo "女";
-                                    break;
-                                
-                                default:
-                                    # code...
-                                    break;
-                            }?></td>
-                            
+                                    case '0':
+                                        echo "其他";
+                                        break;
+                                    case '1':
+                                        echo "男";
+                                        break;
+                                    case '2':
+                                        echo "女";
+                                        break;
 
+                                    default:
+                                        # code...
+                                        break;
+                                }?></td>
                             <td><?php echo stripslashes(str_replace($openid, '<font color=red>' . $openid . '</font>', $row['openid'])); ?></td>
-                            <td><font <?php if(isset($activity_id)&&$activity_id!="") echo "color=red" ?>><?php echo stripslashes($row->activity->activityname) ?></font></td>
+                            <td><?php echo stripslashes(str_replace($count, '<font color=red>' . $count . '</font>', ($row['count'])*5)); ?></td>
+                            <td><?php echo stripslashes(str_replace($list1[$row['activity_id']],  $list1[$row['activity_id']] , $list1[$row['activity_id']])); ?></td>
 
                         </tr> 
             <? } ?>
