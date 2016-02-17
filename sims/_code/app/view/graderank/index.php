@@ -16,39 +16,7 @@
                     <div class="span10" style="margin-bottom:7px;margin-left:40px;">
                         <div id="DataTables_Table_0_filter" class="dataTables_filter">
                                 <span><input name="nickname" type="text" aria-controls="DataTables_Table_0" name="nickname"  id="nickname" value="<?php echo $nickname; ?>" placeholder="微信名包含文字" /></span>
-                                 <select  id="sex" name="sex" >
-                                        <?php
-                                        echo '<option value="">选择性别</option>';
-                                        foreach ($gender as $k => $v) {
-                                            // if ($myData['grade'] == $k) {
-                                            if (strlen($sex) && $sex == $k) {
-                                                $sel = 'selected';
-                                            } else {
-                                                $sel = '';
-                                            }
-                                            echo '<option value="' . $k . '" ' . $sel . '>' . $v . '</option>';
-                                        }
-                                        ?>
-                                    </select>
 
-                                    <!-- <select  id="activity_id" name="activity_id" >
-                                    <?php
-                                    echo '<option value="">选择活动</option>';
-                                    foreach ($list1 as $k => $v) {
-                                        // var_dump($list1);exit;
-                                        $show = 1;
-                                        if ($show == 1) {
-                                            if ($activity_id == $k) {
-                                                $sel = 'selected';
-                                            } else {
-                                                $sel = '';
-                                            }
-                                            echo '<option value="' . $k . '" ' . $sel . '>' . $v['activity_id'] . '</option>';
-                                        }
-                                    }
-                                    ?>
-                                </select> -->
-                                    
                                     <select  id="activity_id" name="activity_id" >
                                         <?php
                                         echo '<option value="">选择活动</option>';
@@ -92,7 +60,8 @@
                     <?php
                     //print_r($list);
                     // dump($list[0]->activity);exit;
-                    foreach ($list as $i => $row) {
+                    foreach ($questype0 as $i => $row) { 
+//                        dump($questype0);
                         // var_dump($row);exit();
                         // dump($row->activity->activityname);exit;
                         ?>
@@ -116,12 +85,11 @@
                                     # code...
                                     break;
                             }?></td>
-                            
 
-                            <td><?php echo stripslashes(str_replace($openid, '<font color=red>' . $openid . '</font>', $row['openid'])); ?></td>
-                            <td><font <?php if(isset($activity_id)&&$activity_id!="") echo "color=red" ?>><?php echo stripslashes($row->activity->activityname) ?></font></td>
-
-                        </tr> 
+                            <td><?php echo stripslashes(str_replace($row['prize'], '<font color=red>' . $row['prize'] . '</font>', $row['prize'])); ?></td>
+                            <td><?php echo stripslashes(str_replace($list1[$row['activity_id']],  $list1[$row['activity_id']] , $list1[$row['activity_id']])); ?></td>
+                            <td><?php echo stripslashes(str_replace($row['COUNT(openid)'], '<font color=red>' . $row['COUNT(openid)'] . '</font>', $row['COUNT(openid)']*5)); ?></td>
+                        </tr>
             <? } ?>
                     </tbody>
                 </table>

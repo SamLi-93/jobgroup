@@ -50,6 +50,7 @@ class Jackpot extends QDB_ActiveRecord_Abstract
                     'belongs_to' => 'Activity',
                     'source_key' => 'activity_id',
                 ),
+
             ),
 
             /**

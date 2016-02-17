@@ -20,6 +20,7 @@ class Controller_Singlerank extends Controller_Abstract
         $dbo = QDB::getConn();
         $questype0 = $dbo->getAll($sql0);
 
+
         $sql1 = 'SELECT openid, COUNT(openid) FROM yideng GROUP BY openid';
         $questype1 = $dbo->getAll($sql1);
 
@@ -88,8 +89,9 @@ class Controller_Singlerank extends Controller_Abstract
             }
         }
         $show = Helper_Array::sortByCol($show, 'count', SORT_DESC);
+
 //        dump($show);
-//        dump($show);exit;
+//        dump(count($show));exit;  //307条数据 +1
 
 // $result = array();
 // foreach($arr as $val){
@@ -161,12 +163,11 @@ class Controller_Singlerank extends Controller_Abstract
 
         foreach($show as $key =>$value) {
             $name = $value['nickname'];
-            if(strpos($name ,$nickname) !== false) {
-                if(isset($activity_tag)&&$activity_tag=$activity_id) {
+                if(strpos($name, $nickname)) {
+                    if(isset($activity_tag)&&$activity_tag=$activity_id) {
 
                 }
             }
-
         }
 
 

@@ -87,10 +87,7 @@
                         <th style="width:10%">性别</th>
                         <th style="width:30%">身份号</th>
                         <th style="width:20%">活动</th>
-                        
-                        <?php if (hp('personnel.3') || hp('personnel.4')) { ?>
-                            <th style="width:20%">操作</th>
-                        <?php } ?>
+                       
                     </tr>
                     </thead>
                     <tbody>

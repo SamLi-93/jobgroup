@@ -16,20 +16,7 @@
                     <div class="span10" style="margin-bottom:7px;margin-left:40px;">
                         <div id="DataTables_Table_0_filter" class="dataTables_filter">
                                 <span><input name="nickname" type="text" aria-controls="DataTables_Table_0" name="nickname"  id="nickname" value="<?php echo $nickname; ?>" placeholder="微信名包含文字" /></span>
-                                 <select  id="sex" name="sex" >
-                                        <?php
-                                        echo '<option value="">选择性别</option>';
-                                        foreach ($gender as $k => $v) {
-                                            // if ($myData['grade'] == $k) {
-                                            if (strlen($sex) && $sex == $k) {
-                                                $sel = 'selected';
-                                            } else {
-                                                $sel = '';
-                                            }
-                                            echo '<option value="' . $k . '" ' . $sel . '>' . $v . '</option>';
-                                        }
-                                        ?>
-                                    </select>
+
 
                                     <!-- <select  id="activity_id" name="activity_id" >
                                     <?php
@@ -95,7 +82,7 @@
 //                    dump($show);exit;
 
                     foreach ($show as $i => $row) {
-//                         var_dump($row);exit();
+//                        dump($i);
                         // dump($row->activity->activityname);exit;
                         ?>
                         <tr>
