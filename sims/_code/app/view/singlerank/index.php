@@ -17,25 +17,6 @@
                         <div id="DataTables_Table_0_filter" class="dataTables_filter">
                                 <span><input name="nickname" type="text" aria-controls="DataTables_Table_0" name="nickname"  id="nickname" value="<?php echo $nickname; ?>" placeholder="微信名包含文字" /></span>
 
-
-                                    <!-- <select  id="activity_id" name="activity_id" >
-                                    <?php
-                                    echo '<option value="">选择活动</option>';
-                                    foreach ($list1 as $k => $v) {
-                                        // var_dump($list1);exit;
-                                        $showlist = 1;
-                                        if ($showlist == 1) {
-                                            if ($activity_id == $k) {
-                                                $sel = 'selected';
-                                            } else {
-                                                $sel = '';
-                                            }
-                                            echo '<option value="' . $k . '" ' . $sel . '>' . $v['activity_id'] . '</option>';
-                                        }
-                                    }
-                                    ?>
-                                </select> -->
-                                    
                                     <select  id="activity_id" name="activity_id" >
                                         <?php
                                         echo '<option value="">选择活动</option>';
@@ -80,7 +61,7 @@
 //                    print_r($show);
                     // dump($list[0]->activity);exit;
 //                    dump($show);exit;
-
+                    if($show != null){
                     foreach ($show as $i => $row) {
 //                        dump($i);
                         // dump($row->activity->activityname);exit;
@@ -109,7 +90,7 @@
                             <td><?php echo stripslashes(str_replace($list1[$row['activity_id']],  $list1[$row['activity_id']] , $list1[$row['activity_id']])); ?></td>
 
                         </tr> 
-            <? } ?>
+            <? }} ?>
                     </tbody>
                 </table>
 

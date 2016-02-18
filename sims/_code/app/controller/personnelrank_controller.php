@@ -33,9 +33,89 @@ class Controller_Personnelrank extends Controller_Abstract
 		$countPerson[$year]['二等奖'] = $countErdeng;
 		$countPerson[$year]['三等奖'] = $countSandeng;
 
+		$showSandeng = array();
+		for($i=0;$i<$countSandeng;$i++){
+			$openid = $questype3[$i]['openid'];
+			$sql4 = "select nickname,activity_id,sex from user WHERE openid = '$openid'";
+			$dbo = QDB::getConn();
+			$result = $dbo->getAll($sql4);
+			$activity_id = $result[0]['activity_id'];
+			$nickname = $result[0]['nickname'];
+			$sex = $result[0]['sex'];
+			$showSandeng[$i]['openid'] = $openid;
+			$showSandeng[$i]['nickname'] = $nickname;
+			$showSandeng[$i]['sex'] = $sex;
+			$showSandeng[$i]['activity_id'] = $activity_id;
+			$showSandeng[$i]['prize'] = '三等奖';
+		}
+
+		$showErdeng = array();
+		for($i=0;$i<$countErdeng;$i++){
+			$openid = $questype2[$i]['openid'];
+			$sql4 = "select nickname,activity_id,sex from user WHERE openid = '$openid'";
+			$dbo = QDB::getConn();
+			$result = $dbo->getAll($sql4);
+			$activity_id = $result[0]['activity_id'];
+			$nickname = $result[0]['nickname'];
+			$sex = $result[0]['sex'];
+			$showErdeng[$i]['openid'] = $openid;
+			$showErdeng[$i]['nickname'] = $nickname;
+			$showErdeng[$i]['sex'] = $sex;
+			$showErdeng[$i]['activity_id'] = $activity_id;
+			$showErdeng[$i]['prize'] = '二等奖';
+		}
+
+		$showYideng = array();
+		for($i=0;$i<$countYideng;$i++){
+			$openid = $questype1[$i]['openid'];
+			$sql4 = "select nickname,activity_id,sex from user WHERE openid = '$openid'";
+			$dbo = QDB::getConn();
+			$result = $dbo->getAll($sql4);
+			$activity_id = $result[0]['activity_id'];
+			$nickname = $result[0]['nickname'];
+			$sex = $result[0]['sex'];
+			$showYideng[$i]['openid'] = $openid;
+			$showYideng[$i]['nickname'] = $nickname;
+			$showYideng[$i]['sex'] = $sex;
+			$showYideng[$i]['activity_id'] = $activity_id;
+			$showYideng[$i]['prize'] = '一等奖';
+		}
+
+		$showTedeng = array();
+		for($i=0;$i<$countTedeng;$i++){
+			$openid = $questype0[$i]['openid'];
+			$sql4 = "select nickname,activity_id,sex from user WHERE openid = '$openid'";
+			$dbo = QDB::getConn();
+			$result = $dbo->getAll($sql4);
+			$activity_id = $result[0]['activity_id'];
+			$nickname = $result[0]['nickname'];
+			$sex = $result[0]['sex'];
+			$showTedeng[$i]['openid'] = $openid;
+			$showTedeng[$i]['nickname'] = $nickname;
+			$showTedeng[$i]['sex'] = $sex;
+			$showTedeng[$i]['activity_id'] = $activity_id;
+			$showTedeng[$i]['prize'] = '特等奖';
+		}
+
 		$page = (int)$this->_context->page;
 		if ($page == 0)
 			$page++;
+
+		//搜索
+		$nickname = '';
+		$activity_tag ='';
+
+		if (isset($_GET['nickname'])) {
+			$nickname = addslashes(trim($_GET['nickname']));
+		}
+		if (isset($_GET['activity_id'])) {
+			$activity_tag = addslashes(trim($_GET['activity_id']));
+		}
+		if (strlen($nickname)) {
+			//  xxxxxxxxxxx;
+		}
+
+
 
 		$limit = $this->_context->limit ? $this->_context->limit : 15;
 
@@ -46,6 +126,7 @@ class Controller_Personnelrank extends Controller_Abstract
 		$prize = '';
 		$count = '';
 
+		$this->_view['nickname'] = stripslashes($nickname);
 		$this->_view['pager'] = $q->getPagination();
 		$this->_view['list1'] = $list1;
 		$this->_view['start'] = ($page - 1) * $limit;

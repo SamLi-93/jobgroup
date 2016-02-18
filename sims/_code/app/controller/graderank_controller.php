@@ -9,6 +9,14 @@ class Controller_Graderank extends Controller_Abstract
 
 	function actionIndex()
 	{
+
+		$prize = Q::ini('appini/prize');
+		$this->_view['prize'] = $prize;
+//		foreach ($prize as $k => $v)  {
+//			dump($k);
+//			dump($v);
+//		}
+
 		$sql0 = 'SELECT openid, COUNT(openid) FROM tedeng GROUP BY openid';
 		$dbo = QDB::getConn();
 		$questype0 = $dbo->getAll($sql0);
@@ -52,6 +60,7 @@ class Controller_Graderank extends Controller_Abstract
 			$questype1[$i]['activity_id'] =$activity_id;
 			$questype1[$i]['nickname'] = $nickname;
 			$questype1[$i]['sex'] = $sex;
+			$questype1[$i]['prize'] = '一等奖';
 		}
 
 		for($i=0;$i<count($questype2);$i++) {
@@ -65,6 +74,7 @@ class Controller_Graderank extends Controller_Abstract
 			$questype2[$i]['activity_id'] =$activity_id;
 			$questype2[$i]['nickname'] = $nickname;
 			$questype2[$i]['sex'] = $sex;
+			$questype2[$i]['prize'] = '二等奖';
 		}
 
 		for($i=0;$i<count($questype3);$i++) {
@@ -78,16 +88,17 @@ class Controller_Graderank extends Controller_Abstract
 			$questype3[$i]['activity_id'] =$activity_id;
 			$questype3[$i]['nickname'] = $nickname;
 			$questype3[$i]['sex'] = $sex;
+			$questype3[$i]['prize'] = '三等奖';
 		}
 
 //		dump($questype0);
+		$arr = array_merge($questype0, $questype1, $questype2, $questype3);
+
 		$this->_view['questype0'] = $questype0;
 		$this->_view['questype1'] = $questype1;
 		$this->_view['questype2'] = $questype2;
 		$this->_view['questype3'] = $questype3;
-
-
-
+		$this->_view['arr'] = $arr;
 
 		$page = (int)$this->_context->page;
 		if ($page == 0)
@@ -102,13 +113,12 @@ class Controller_Graderank extends Controller_Abstract
 //        dump(empty($activity_id));exit;
 		if (isset($_GET['activity_id'])) {
 			$activity_tag = addslashes(trim($_GET['activity_id']));
-			if (strlen($activity_tag)) {
-				array_push($search_list_temp, " activity_id like '%$activity_tag%'");
-			}
+//			if (strlen($activity_tag)) {
+//				array_push($search_list_temp, " activity_id like '%$activity_tag%'");
+//			}
 		}
 		if (isset($_GET['nickname'])) {
 			$nickname = addslashes(trim($_GET['nickname']));
-			$sex = addslashes(trim($_GET['sex']));
 // $activity_id = $_GET['activity_id'];
 			if (isset($_GET['activity_id'])) {
 				$activity_tag = addslashes(trim($_GET['activity_id']));

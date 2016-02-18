@@ -33,6 +33,21 @@
                                         }
                                         ?>
                                     </select>
+                            <select  id="prize" name="prize" >
+                                <?php
+                                echo '<option value="">选择中奖等级</option>';
+                                foreach ($prize as $k => $v)  {
+                                    // if ($myData['grade'] == $k) {
+
+                                    if (strlen($v) && $v == 1) {
+                                        $sel = 'selected';
+                                    } else {
+                                        $sel = '';
+                                    }
+                                    echo '<option value="' . $k . '" ' . $sel . '>' . $v . '</option>';
+                                }
+                                ?>
+                            </select>
 
                                 <div>
                                     <div class="btn2 ml20" onclick="$('.fsimple').submit();"><span class="shadow white">查询</span></div>
@@ -49,19 +64,19 @@
                     <thead>
                     <tr>
                         <th style="width:10%">序号</th>
-                        <th style="width:11%" >微信名</th>
+                        <th style="width:30%" >微信名</th>
                         <th style="width:10%">性别</th>
-                        <th style="width:30%">身份号</th>
+                        <th style="width:20%">抽奖等级</th>
                         <th style="width:20%">活动</th>
-                        <th style="width:15%">摇动总次数</th>
+                        <th style="width:10%">摇动总次数</th>
                     </tr>
                     </thead>
                     <tbody>
                     <?php
                     //print_r($list);
                     // dump($list[0]->activity);exit;
-                    foreach ($questype0 as $i => $row) { 
-//                        dump($questype0);
+                    foreach ($arr as $i => $row) {
+
                         // var_dump($row);exit();
                         // dump($row->activity->activityname);exit;
                         ?>

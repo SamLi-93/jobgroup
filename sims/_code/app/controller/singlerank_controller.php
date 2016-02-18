@@ -126,7 +126,6 @@ class Controller_Singlerank extends Controller_Abstract
         }
         if (isset($_GET['nickname'])) {
             $nickname = addslashes(trim($_GET['nickname']));
-            $sex = addslashes(trim($_GET['sex']));
 // $activity_id = $_GET['activity_id'];
             if (isset($_GET['activity_id'])) {
                 $activity_tag = addslashes(trim($_GET['activity_id']));
@@ -160,15 +159,64 @@ class Controller_Singlerank extends Controller_Abstract
         $search_where = implode(' and ', $search_list_temp);
         $this->_view['show'] = $show;
 //        dump(isset($activity_id));exit;
-
+//        dump($activity_tag);
+       $show_search = array();
+//       dump($nickname);
         foreach($show as $key =>$value) {
             $name = $value['nickname'];
-                if(strpos($name, $nickname)) {
-                    if(isset($activity_tag)&&$activity_tag=$activity_id) {
-
+            if(!empty($name)&&!empty($nickname)){
+                if(strstr($name, $nickname)) {
+                    if($show[$key]['activity_id'] ==$activity_tag ) {
+                        $show_search[$key] = $show[$key];
+                        $this->_view['show'] = $show_search;
+                    }elseif($show[$key]['activity_id'] != $activity_tag ) {
+                        $this->_view['show'] = null;
+                    }
                 }
-            }
+            }elseif(empty($nickname)&&!empty($activity_tag)) {
+                if($show[$key]['activity_id'] ==$activity_tag ) {
+                        $show_search[$key] = $show[$key];
+                        $this->_view['show'] = $show_search;
+                }elseif($show[$key]['activity_id'] != $activity_tag ) {
+                        $this->_view['show'] = null;
+                    }
+             }
         }
+
+
+//        $result = $show;
+//        if(empty($activity_tag)&&!empty($nickname)){
+//            $name = $value['nickname'];
+//            foreach ($show as $k1 => $v1) {
+//                if(strstr($name, $nickname)) {
+//                    $show_search[$k1] = $show[$k1];
+//                }
+//            }
+//            $result = $show_search;
+//        }
+//        if(!empty($activity_tag)&&empty($nickname)){
+//            $name = $value['nickname'];
+//            foreach ($show as $k2 => $v2) {
+//                if($show[$k2]['activity_id'] ==$activity_tag ) {
+//                    $show_search[$k2] = $show[$k2];
+//                }
+//            }
+//            $result = $show_search;
+//        }
+//        if(!empty($activity_tag)&&!empty($nickname)){
+//            $name = $value['nickname'];
+//            foreach ($show as $k3 => $v3) {
+//                if(strstr($name, $nickname)) {
+//                    if($show[$k3]['activity_id'] ==$activity_tag ) {
+//                        $show_search[$k3] = $show[$k3];
+//                    }
+//                }
+//            }
+//            $result = $show_search;
+//        }
+//        $this->_view['show'] = $result;
+
+
 
 
         $q = Personnel::find($search_where)->order('id desc')->limitPage($page, $limit);
