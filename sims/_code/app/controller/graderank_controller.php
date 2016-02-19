@@ -12,6 +12,7 @@ class Controller_Graderank extends Controller_Abstract
 
 		$prize = Q::ini('appini/prize');
 		$this->_view['prize'] = $prize;
+
 //		foreach ($prize as $k => $v)  {
 //			dump($k);
 //			dump($v);
@@ -46,7 +47,7 @@ class Controller_Graderank extends Controller_Abstract
 			$questype0[$i]['activity_id'] =$activity_id;
 			$questype0[$i]['nickname'] = $nickname;
 			$questype0[$i]['sex'] = $sex;
-			$questype0[$i]['prize'] = '特等奖';
+			$questype0[$i]['prize'] = '4';
 		}
 
 		for($i=0;$i<count($questype1);$i++) {
@@ -60,7 +61,7 @@ class Controller_Graderank extends Controller_Abstract
 			$questype1[$i]['activity_id'] =$activity_id;
 			$questype1[$i]['nickname'] = $nickname;
 			$questype1[$i]['sex'] = $sex;
-			$questype1[$i]['prize'] = '一等奖';
+			$questype1[$i]['prize'] = '3';
 		}
 
 		for($i=0;$i<count($questype2);$i++) {
@@ -74,7 +75,7 @@ class Controller_Graderank extends Controller_Abstract
 			$questype2[$i]['activity_id'] =$activity_id;
 			$questype2[$i]['nickname'] = $nickname;
 			$questype2[$i]['sex'] = $sex;
-			$questype2[$i]['prize'] = '二等奖';
+			$questype2[$i]['prize'] = '2';
 		}
 
 		for($i=0;$i<count($questype3);$i++) {
@@ -88,7 +89,7 @@ class Controller_Graderank extends Controller_Abstract
 			$questype3[$i]['activity_id'] =$activity_id;
 			$questype3[$i]['nickname'] = $nickname;
 			$questype3[$i]['sex'] = $sex;
-			$questype3[$i]['prize'] = '三等奖';
+			$questype3[$i]['prize'] = '1';
 		}
 
 //		dump($questype0);
@@ -110,30 +111,19 @@ class Controller_Graderank extends Controller_Abstract
 		$search_list_temp = array();
 		$nickname = '';
 		$activity_tag = '';
+		$search_prize = '';
 //        dump(empty($activity_id));exit;
+		//get需要的值
 		if (isset($_GET['activity_id'])) {
 			$activity_tag = addslashes(trim($_GET['activity_id']));
-//			if (strlen($activity_tag)) {
-//				array_push($search_list_temp, " activity_id like '%$activity_tag%'");
-//			}
 		}
 		if (isset($_GET['nickname'])) {
 			$nickname = addslashes(trim($_GET['nickname']));
-// $activity_id = $_GET['activity_id'];
-			if (isset($_GET['activity_id'])) {
-				$activity_tag = addslashes(trim($_GET['activity_id']));
-			}
-// $search_list = array();
-			if (strlen($nickname)) {
-				array_push($search_list_temp, " nickname like '%$nickname%'");
-			}
-			if (strlen($sex)) {
-				array_push($search_list_temp, " sex like '%$sex%'");
-			}
-			if (strlen($activity_tag)) {
-				array_push($search_list_temp, " activity_id like '%$activity_tag%'");
-			}
 		}
+		if (isset($_GET['prize'])) {
+			$search_prize = addslashes(trim($_GET['prize']));
+		}
+
 		$sex = '';
 		$openid = '';
 		$count = '';
@@ -142,6 +132,50 @@ class Controller_Graderank extends Controller_Abstract
 		$this->_view['sex'] = stripslashes($sex);
 		$this->_view['openid'] = stripslashes($openid);
 		$this->_view['activity_id'] = $activity_tag;
+		$this->_view['search_prize'] = $search_prize;
+
+		$show_search = array();
+		foreach($arr as $key => $value) {
+			$name = $value['nickname'];
+			if(!empty($nickname)&&!empty($name)&&!empty($search_prize)) {
+				if(strstr($name,$nickname)) {
+					if($arr[$key]['activity_id'] == $activity_tag) {
+						if($arr[$key]['prize'] == $search_prize) {
+							$show_search[$key] = $arr[$key];
+							$this->_view['arr'] = $show_search;
+						}
+					}elseif($arr[$key]['activity_id'] != $activity_tag  ) {
+						$this->_view['arr'] = null;
+					}
+				}
+			}elseif(empty($nickname)&&!empty($activity_tag)&&empty($search_prize)) {
+				if($arr[$key]['activity_id'] == $activity_tag ) {
+					$show_search[$key] = $arr[$key];
+					$this->_view['arr'] = $show_search;
+				}elseif($arr[$key]['activity_id'] != $activity_tag ) {
+					$this->_view['arr'] = null;
+				}
+			}elseif(empty($nickname)&&!empty($activity_tag)&&!empty($search_prize)) {
+				if($arr[$key]['activity_id'] == $activity_tag && $search_prize == $arr[$key]['prize'] ) {
+					$show_search[$key] = $arr[$key];
+					$this->_view['arr'] = $show_search;
+				}
+			}elseif(!empty($nickname)&&!empty($activity_tag)&&empty($search_prize)) {
+				if($arr[$key]['activity_id'] == $activity_tag  ){
+					if(strstr($name,$nickname)) {
+						$show_search[$key] = $arr[$key];
+						$this->_view['arr'] = $show_search;
+					}
+				}else {
+					$this->_view['arr'] = null;
+				}
+			}elseif(!empty($nickname)&&empty($activity_tag)&&empty($search_prize)) {
+				if(strstr($name,$nickname)) {
+					$show_search[$key] = $arr[$key];
+					$this->_view['arr'] = $show_search;
+				}
+			}
+		}
 
 
 //-----------------------------------------------

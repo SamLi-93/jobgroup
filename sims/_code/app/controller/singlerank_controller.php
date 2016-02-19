@@ -105,8 +105,8 @@ class Controller_Singlerank extends Controller_Abstract
 // dump($questype0);exit;
 // $list1 = $q1->getAll()->toHashmap('id', 'activityname');
 
-        $gender = Q::ini('appini/gender');
-        $this->_view['gender'] = $gender;
+
+
         $page = (int)$this->_context->page;
         if ($page == 0)
             $page++;
@@ -183,7 +183,6 @@ class Controller_Singlerank extends Controller_Abstract
              }
         }
 
-
 //        $result = $show;
 //        if(empty($activity_tag)&&!empty($nickname)){
 //            $name = $value['nickname'];
@@ -216,32 +215,45 @@ class Controller_Singlerank extends Controller_Abstract
 //        }
 //        $this->_view['show'] = $result;
 
+//        $pageSize = 14;
+//        $pnum = ceil(count($show) / $pageSize);
+//        if(isset($_GET['page'])) {
+//            $page = intval($_GET['page']);
+//            $page = $page > $pnum? $pnum: $page;
+//        }else {
+//            $page = 1;
+//        }
+//        $page = empty($_GET['page']) ? '1' : $_GET['page'];
+//        for($i=($page-1)*$pageSize;$i<$page*$pageSize;$i++) {
+//            if(!isset($arr_click[$i]))break;
+//            $arr = $show[($page - 1) * $pageSize + $i];
+//        }
+//        dump($show_search);
 
-
-
-        $q = Personnel::find($search_where)->order('id desc')->limitPage($page, $limit);
+        $q = Personnel::find($search_where)->order('id desc')->limitPage($page,$limit);
 //q1是查询activity的activity_id字段
-        $q1 = Activity::find()->limitPage($page, $limit);
+        $q1 = Activity::find();
         $list1 = $q1->getAll()->toHashmap('id', 'activityname');
 // dump($list1);
 // dump($list1);exit;
 //------------------------------------------------------------------------
 // dump($list);exit;
         $list = $q->getAll();
+//        dump(count($show));
+//        dump($limit);
+//        dump($list);exit;
 // dump($q->getOne()->activity);exit();
 // dump($list);exit;
 //        dump($show);exit;
         $this->_view['pager'] = $q->getPagination();
-        $this->_view['list'] = $list;
 
-//        dump($show);exit;
+//        $this->_view['list'] = $list;
+//        dump($q->getPagination());exit;
         $this->_view['list1'] = $list1;
-        $this->_view['start'] = ($page - 1) * $limit;
+        $this->_view['start'] = 0;
         $this->_view['subject'] = "人员管理1";
+
     }
-
-
-
 }
 
 

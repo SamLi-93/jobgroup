@@ -16,11 +16,9 @@
                     <div class="span10" style="margin-bottom:7px;margin-left:40px;">
                         <div id="DataTables_Table_0_filter" class="dataTables_filter">
                                 <span><input name="nickname" type="text" aria-controls="DataTables_Table_0" name="nickname"  id="nickname" value="<?php echo $nickname; ?>" placeholder="微信名包含文字" /></span>
-
                                     <select  id="activity_id" name="activity_id" >
                                         <?php
                                         echo '<option value="">选择活动</option>';
-
                                         foreach ($list1 as $k => $v) {
                                             // if ($myData['activity_id'] == $k) {
                                             if (strlen($activity_id) && $activity_id == $k) {
@@ -33,13 +31,13 @@
                                         }
                                         ?>
                                     </select>
+
                             <select  id="prize" name="prize" >
                                 <?php
                                 echo '<option value="">选择中奖等级</option>';
                                 foreach ($prize as $k => $v)  {
                                     // if ($myData['grade'] == $k) {
-
-                                    if (strlen($v) && $v == 1) {
+                                    if (strlen($search_prize) && $search_prize == $k) {
                                         $sel = 'selected';
                                     } else {
                                         $sel = '';
@@ -95,13 +93,27 @@
                                 case '2':
                                     echo "女";
                                     break;
-                                
                                 default:
                                     # code...
                                     break;
                             }?></td>
-
-                            <td><?php echo stripslashes(str_replace($row['prize'], '<font color=red>' . $row['prize'] . '</font>', $row['prize'])); ?></td>
+                            <td><?php  stripslashes(str_replace($row['prize'], '<font color=red>' . $row['prize'] . '</font>', $row['prize'])); ?>
+                                <?php switch ($row['prize']) {
+                                    case '1':
+                                        echo "三等奖";
+                                        break;
+                                    case '2':
+                                        echo "二等奖";
+                                        break;
+                                    case '3':
+                                        echo "一等奖";
+                                        break;
+                                    case '4':
+                                        echo "特等奖";
+                                        break;
+                                    default:
+                                        break;
+                                }?></td>
                             <td><?php echo stripslashes(str_replace($list1[$row['activity_id']],  $list1[$row['activity_id']] , $list1[$row['activity_id']])); ?></td>
                             <td><?php echo stripslashes(str_replace($row['COUNT(openid)'], '<font color=red>' . $row['COUNT(openid)'] . '</font>', $row['COUNT(openid)']*5)); ?></td>
                         </tr>

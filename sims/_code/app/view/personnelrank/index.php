@@ -17,24 +17,6 @@
                         <div id="DataTables_Table_0_filter" class="dataTables_filter">
                             <span><input name="nickname" type="text" aria-controls="DataTables_Table_0" name="nickname"  id="nickname" value="<?php echo $nickname; ?>" placeholder="微信名包含文字" /></span>
 
-                            <!-- <select  id="activity_id" name="activity_id" >
-                                    <?php
-                            echo '<option value="">选择活动</option>';
-                            foreach ($list1 as $k => $v) {
-                                // var_dump($list1);exit;
-                                $show = 1;
-                                if ($show == 1) {
-                                    if ($activity_id == $k) {
-                                        $sel = 'selected';
-                                    } else {
-                                        $sel = '';
-                                    }
-                                    echo '<option value="' . $k . '" ' . $sel . '>' . $v['activity_id'] . '</option>';
-                                }
-                            }
-                            ?>
-                                </select> -->
-
                             <select  id="activity_id" name="activity_id" >
                                 <?php
                                 echo '<option value="">选择活动</option>';
@@ -47,6 +29,21 @@
                                         $sel = '';
                                     }
 
+                                    echo '<option value="' . $k . '" ' . $sel . '>' . $v . '</option>';
+                                }
+                                ?>
+                            </select>
+
+                            <select  id="prize" name="prize" >
+                                <?php
+                                echo '<option value="">选择中奖等级</option>';
+                                foreach ($prize as $k => $v)  {
+                                    // if ($myData['grade'] == $k) {
+                                    if (strlen($search_prize) && $search_prize == $k) {
+                                        $sel = 'selected';
+                                    } else {
+                                        $sel = '';
+                                    }
                                     echo '<option value="' . $k . '" ' . $sel . '>' . $v . '</option>';
                                 }
                                 ?>

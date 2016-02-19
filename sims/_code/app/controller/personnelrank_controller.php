@@ -10,6 +10,9 @@ class Controller_Personnelrank extends Controller_Abstract
 	function actionIndex()
 	{
 
+		$prize = Q::ini('appini/prize');
+		$this->_view['prize'] = $prize;
+
 		$sql3 = "SELECT openid, COUNT(openid),activity_id FROM sandeng WHERE activity_id = '1' GROUP BY openid ";
 		$dbo = QDB::getConn();
 		$questype3 = $dbo->getAll($sql3);
@@ -104,6 +107,8 @@ class Controller_Personnelrank extends Controller_Abstract
 		//搜索
 		$nickname = '';
 		$activity_tag ='';
+		$search_prize = '';
+
 
 		if (isset($_GET['nickname'])) {
 			$nickname = addslashes(trim($_GET['nickname']));
@@ -111,8 +116,8 @@ class Controller_Personnelrank extends Controller_Abstract
 		if (isset($_GET['activity_id'])) {
 			$activity_tag = addslashes(trim($_GET['activity_id']));
 		}
-		if (strlen($nickname)) {
-			//  xxxxxxxxxxx;
+		if (isset($_GET['prize'])) {
+			$search_prize = addslashes(trim($_GET['prize']));
 		}
 
 
@@ -125,6 +130,9 @@ class Controller_Personnelrank extends Controller_Abstract
 
 		$prize = '';
 		$count = '';
+
+		$this->_view['activity_id'] = $activity_tag;
+		$this->_view['search_prize'] = $search_prize;
 
 		$this->_view['nickname'] = stripslashes($nickname);
 		$this->_view['pager'] = $q->getPagination();

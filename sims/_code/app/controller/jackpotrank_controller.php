@@ -100,41 +100,110 @@ class Controller_Jackpotrank extends Controller_Abstract
 		}
 		$countArray = Helper_Array::sortByCol($countArray, 'count', SORT_DESC);
 
+		$page = (int)$this->_context->page;
+		if ($page == 0)
+			$page++;
+		$limit = $this->_context->limit ? $this->_context->limit : 15;
 
-//		$countArray = array();
-//		foreach($list as $key =>$value) {
-//			foreach($w as $k => $v) {
-//				if($v['openid'] == $value['openid']) {
-//					$countArray[] = $w[$k];
+//搜索
+		$search_list_temp = array();
+
+		$this->_view['countArray'] = $countArray;
+
+		$nickname = '';
+		$activity_tag = '';
+//        dump(empty($activity_id));exit;
+		if (isset($_GET['activity_id'])) {
+			$activity_tag = addslashes(trim($_GET['activity_id']));
+		}
+		if (isset($_GET['nickname'])) {
+			$nickname = addslashes(trim($_GET['nickname']));
+		}
+
+		$this->_view['activity_id'] = $activity_tag;
+
+//       dump($nickname);
+
+//		foreach($countArray as $key =>$value) {
+//			$name = $value['nickname'];
+//			if(!empty($name)&&!empty($nickname)){
+//				if(strstr($name, $nickname)) {
+//					if($countArray[$key]['activity_id'] ==$activity_tag ) {
+//						$show_search[$key] = $countArray[$key];
+//						$this->_view['$countArray'] = $show_search;
+//					}elseif($countArray[$key]['activity_id'] != $activity_tag ) {
+//						$this->_view['$countArray'] = null;
+//					}
+//				}
+//			}elseif(empty($nickname)&&!empty($activity_tag)) {
+//				if($countArray[$key]['activity_id'] ==$activity_tag ) {
+//					$show_search[$key] = $countArray[$key];
+//					$this->_view['$countArray'] = $show_search;
+//				}elseif($countArray[$key]['activity_id'] != $activity_tag ) {
+//					$this->_view['$countArray'] = null;
 //				}
 //			}
 //		}
-//		dump($countArray);exit;
 
-//		 dump($list);exit;
-		//----------------	-----------------------------------------------------------------
-//		dump($list1);exit;
-		$nickname = '';
+//		foreach($countArray as $key =>$value) {
+//			$name = $value['nickname'];
+////			dump($countArray[$key]['activity_id']);
+//			if (!empty($name) && !empty($nickname)) {
+//				if (strstr($name, $nickname)) {
+//					$show_search[$key] = $countArray[$key];
+//					$this->_view['countArray'] = $show_search;
+//
+//					if ($countArray[$key]['activity_id'] == $activity_tag) {
+//						$show_search[$key] = $countArray[$key];
+//						$this->_view['countArray'] = $show_search;
+//					} elseif ($countArray[$key]['activity_id'] != $activity_tag) {
+//						$this->_view['countArray'] = null;
+//					}
+//				}
+//			}
+//		}
+
+
 		$activity_id='';
 		$openid = '';
 		$count ='';
 
+		$show_search = array();
+		foreach($countArray as $key => $value) {
+			$name = $value['nickname'];
+			if(!empty($nickname)&&!empty($name)) {
+				if(strstr($name,$nickname)) {
+					if($countArray[$key]['activity_id'] == $activity_tag) {
+						$show_search[$key] = $countArray[$key];
+						$this->_view['countArray'] = $show_search;
+					}elseif($countArray[$key]['activity_id'] != $activity_tag ) {
+						$this->_view['countArray'] = null;
+					}
+				}
+			}elseif(empty($nickname)&&!empty($activity_tag)) {
+				if($countArray[$key]['activity_id'] == $activity_tag ) {
+					$show_search[$key] = $countArray[$key];
+					$this->_view['countArray'] = $show_search;
+				}elseif($show[$key]['activity_id'] != $activity_tag ) {
+					$this->_view['countArray'] = null;
+				}
+			}
+		}
+
+//		dump($countArray);exit;
+//		 dump($list);exit;
+//----------------	-----------------------------------------------------------------
+//		dump($list1);exit;
+
 		$this->_view['nickname'] = stripslashes($nickname);
 		$this->_view['openid'] = stripslashes($openid);
-		$this->_view['activity_id'] = $activity_id;
 		$this->_view['count'] =$count;
 
 		$this->_view['list'] = $list;
 		$this->_view['list1'] = $list1;
-		$this->_view['countArray'] = $countArray;
 		$this->_view['pager'] = $q->getPagination();
 		$this->_view['start'] = 0;
 		$this->_view['subject'] = "中奖人员管理111";
-
-
-
-
-
 
 	}
 }

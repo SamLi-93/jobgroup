@@ -37,8 +37,6 @@
                                 <div>
                                     <div class="btn2 ml20" onclick="$('.fsimple').submit();"><span class="shadow white">查询</span></div>
                                     <div class="btn2 ml20" onclick="window.location.href='<?php echo url('');?>';"><span class="shadow white">重置</span></div>
-        
-
                                 </div>
                         </div>
                     </div>
