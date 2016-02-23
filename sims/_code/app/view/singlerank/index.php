@@ -61,14 +61,14 @@
 //                    dump($show);exit;
                     if($list != null){
                     foreach ($list as $i => $row) {
-//                        dump($i);
+//                        dump($list[$i]['openid']);
                         // dump($row->activity->activityname);exit;
                         ?>
                         <tr>
                             <td><?php echo $i + $start + 1 ?></td>
-                            <td><?php echo stripslashes(str_replace($nickname, '<font color=red>' . $nickname . '</font>', $row['nickname'])); ?></td>
-                            <td><?php  stripslashes(str_replace($sex, '<font color=red>' . $sex . '</font>', $row['sex'])); ?>
-                                <?php switch ($row['sex']) {
+                            <td><?php echo stripslashes(str_replace($list[$i]['nickname'],   $list[$i]['nickname']  , $list[$i]['nickname'])); ?></td>
+                            <td><?php  stripslashes(str_replace($list[$i]['sex'],  $list[$i]['sex'], $list[$i]['sex'])); ?>
+                                <?php switch ($list[$i]['sex']) {
                                     case '0':
                                         echo "其他";
                                         break;
@@ -83,8 +83,8 @@
                                         # code...
                                         break;
                                 }?></td>
-                            <td><?php echo stripslashes(str_replace($openid, '<font color=red>' . $openid . '</font>', $row['openid'])); ?></td>
-                            <td><?php echo stripslashes(str_replace($count, '<font color=red>' . $count . '</font>', ($row['count'])*5)); ?></td>
+                            <td><?php echo stripslashes(str_replace($list[$i]['openid'],  $list[$i]['openid'] , $list[$i]['openid'])); ?></td>
+                            <td><?php echo stripslashes(str_replace($list[$i]['count'], '<font color=red>' . $list[$i]['count'] . '</font>', $list[$i]['count']*5)); ?></td>
                             <td><?php echo stripslashes(str_replace($list1[$row['activity_id']],  $list1[$row['activity_id']] , $list1[$row['activity_id']])); ?></td>
 
                         </tr> 

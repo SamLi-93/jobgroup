@@ -82,4 +82,38 @@ class Person
         return $show;
     }
 
+    public function addData($questype,$prize_id) {
+        for ($i = 0; $i < count($questype); $i++) {
+            $openid = $questype[$i]['openid'];
+            $sql4 = "select nickname,activity_id,sex from user WHERE openid = '$openid'";
+            $dbo = QDB::getConn();
+            $result = $dbo->getAll($sql4);
+            $activity_id = $result[0]['activity_id'];
+            $nickname = $result[0]['nickname'];
+            $sex = $result[0]['sex'];
+            $questype[$i]['activity_id'] = $activity_id;
+            $questype[$i]['nickname'] = $nickname;
+            $questype[$i]['sex'] = $sex;
+            $questype[$i]['prize'] = $prize_id;
+        }
+        return $questype;
+    }
+
+    public function processData($countNum,$questype,$showJideng,$prize_id) {
+        for($i=0;$i<$countNum;$i++){
+            $openid = $questype[$i]['openid'];
+            $sql4 = "select nickname,activity_id,sex from user WHERE openid = '$openid'";
+            $dbo = QDB::getConn();
+            $result = $dbo->getAll($sql4);
+            $activity_id = $result[0]['activity_id'];
+            $nickname = $result[0]['nickname'];
+            $sex = $result[0]['sex'];
+            $showJideng[$i]['nickname'] = $nickname;
+            $showJideng[$i]['sex'] = $sex;
+            $showJideng[$i]['activity_id'] = $activity_id;
+            $showJideng[$i]['prize'] = $prize_id;
+        }
+        return $showJideng;
+    }
+
 }

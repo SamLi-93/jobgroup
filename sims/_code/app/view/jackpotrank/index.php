@@ -49,16 +49,16 @@
                     <?php
                     if(!empty($list)){
                     foreach ($list as $i => $row) {
-//                        dump($countArray);exit;
+//                        dump($list[$i]['count']);
 //                        dump($list[$i]['activity_id']);exit;
 //                         dump($row->activity->activityname);exit;
                         ?>
                         <tr>
                             <td><?php echo $i + $start + 1 ?></td>
-                            <td><?php echo stripslashes(str_replace($nickname, '<font color=red>' . $nickname . '</font>', $row['nickname'])); ?></td>
-                            <td><?php echo stripslashes(str_replace($openid, '<font color=red>' . $openid . '</font>', $row['openid'])); ?></td>
+                            <td><?php echo stripslashes(str_replace($list[$i]['nickname'], $list[$i]['nickname'], $list[$i]['nickname'])); ?></td>
+                            <td><?php echo stripslashes(str_replace($list[$i]['openid'], $list[$i]['openid'], $list[$i]['openid'])); ?></td>
                             <td><?php echo stripslashes(str_replace($list1[$list[$i]['activity_id']],  $list1[$list[$i]['activity_id']] , $list1[$list[$i]['activity_id']])); ?></td>
-                            <td><?php echo stripslashes(str_replace($count, '<font color=red>' . $count . '</font>', ($row['count'])*5)); ?></td>
+                            <td><?php echo stripslashes(str_replace($list[$i]['count'], '<font color=red>' . $list[$i]['count'] . '</font>', ($list[$i]['count'])*5)); ?></td>
                         </tr>
             <? } }?>
                     </tbody>

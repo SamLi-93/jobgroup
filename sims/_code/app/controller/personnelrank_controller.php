@@ -19,6 +19,7 @@ class Controller_Personnelrank extends Controller_Abstract
 		$countSandeng = count($questype3);
 
 		$sql2 = "SELECT openid, COUNT(openid),activity_id FROM erdeng WHERE activity_id = '1' GROUP BY openid";
+		$dbo = QDB::getConn();
 		$questype2 = $dbo->getAll($sql2);
 		$countErdeng = count($questype2);
 
@@ -52,6 +53,13 @@ class Controller_Personnelrank extends Controller_Abstract
 			$showSandeng[$i]['prize'] = '1';
 		}
 
+//		$person = new Person();
+//		$showSandeng = $person->processData($countSandeng,$questype3,$showSandeng,1);
+//		$showErdeng = $person->processData($countErdeng,$questype2,$showErdeng,2);
+//		$showYideng = $person->processData($countYideng,$questype1,$showYideng,3);
+//		$showTedeng = $person->processData($countTedeng,$questype0,$showTedeng,4);
+
+
 		$showErdeng = array();
 		for($i=0;$i<$countErdeng;$i++){
 			$openid = $questype2[$i]['openid'];
@@ -66,6 +74,7 @@ class Controller_Personnelrank extends Controller_Abstract
 			$showErdeng[$i]['activity_id'] = $activity_id;
 			$showErdeng[$i]['prize'] = '2';
 		}
+
 
 		$showYideng = array();
 		for($i=0;$i<$countYideng;$i++){
