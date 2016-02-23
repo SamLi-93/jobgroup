@@ -1,12 +1,7 @@
 <? $this->_extends("_layouts/main_layout"); ?>
 <? $this->_block("contents"); ?>
 <script type="text/javascript">
-<!--
-    function check() {
-        return confirm('确定删除吗？');
 
-    }
-//-->
 </script>
 <div class="row-fluid sortable" style="width:95%">		
     <div class="box span12">
@@ -69,11 +64,10 @@
                         <th style="width:10%">摇动总次数</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="tbody">
                     <?php
-                    //print_r($list);
-                    // dump($list[0]->activity);exit;
-                    foreach ($arr as $i => $row) {
+                    if(!empty($list)){
+                    foreach ($list as $i => $row) {
 
                         // var_dump($row);exit();
                         // dump($row->activity->activityname);exit;
@@ -117,13 +111,12 @@
                             <td><?php echo stripslashes(str_replace($list1[$row['activity_id']],  $list1[$row['activity_id']] , $list1[$row['activity_id']])); ?></td>
                             <td><?php echo stripslashes(str_replace($row['COUNT(openid)'], '<font color=red>' . $row['COUNT(openid)'] . '</font>', $row['COUNT(openid)']*5)); ?></td>
                         </tr>
-            <? } ?>
+            <? } }?>
                     </tbody>
                 </table>
 
             <br/>
-    <? $this->_control("pagination", "", array('pagination' => $pager)); ?>
-
+            <? $this->_control("pagination", "", array('pagination' => $pager)); ?>
         </div>
     </div>
 

@@ -6,9 +6,18 @@
  */
 class Controller_Singlerank extends Controller_Abstract
 {
+//    public $page_length = 15;
+//    public $total_count;
+//    public $total_pages;
+//    public $current_page;
+//    public $page_list;
 
     function actionIndex()
     {
+
+//        $page_length = 15;
+
+
 // 为 $this->_view 指定的值将会传递数据到视图中
 # $this->_view['text'] = 'Hello!';afa
 //-------------------
@@ -20,12 +29,12 @@ class Controller_Singlerank extends Controller_Abstract
         $dbo = QDB::getConn();
         $questype0 = $dbo->getAll($sql0);
 
-
         $sql1 = 'SELECT openid, COUNT(openid) FROM yideng GROUP BY openid';
         $questype1 = $dbo->getAll($sql1);
 
         $sql2 = 'SELECT openid, COUNT(openid) FROM erdeng GROUP BY openid';
         $questype2 = $dbo->getAll($sql2);
+
 
         $sql3 = 'SELECT openid, COUNT(openid) FROM sandeng GROUP BY openid';
         $questype3 = $dbo->getAll($sql3);
@@ -56,6 +65,7 @@ class Controller_Singlerank extends Controller_Abstract
         }
 //        dump($arr);exit;
         $length_new = count($arr);
+
 //        dump($arr);exit;
 // dump($length_new);exit;     // 数组arr长度为307 + 1
 // $person = new Person();
@@ -90,8 +100,12 @@ class Controller_Singlerank extends Controller_Abstract
         }
         $show = Helper_Array::sortByCol($show, 'count', SORT_DESC);
 
-//        dump($show);
 //        dump(count($show));exit;  //307条数据 +1
+
+//        $total_count = count($show);
+//        $total_pages = ceil($total_count / $page_length);
+//        $current_page = $_GET['page'];
+//        $page_list = range(1, $total_pages);
 
 // $result = array();
 // foreach($arr as $val){
@@ -105,14 +119,6 @@ class Controller_Singlerank extends Controller_Abstract
 // dump($questype0);exit;
 // $list1 = $q1->getAll()->toHashmap('id', 'activityname');
 
-
-
-        $page = (int)$this->_context->page;
-        if ($page == 0)
-            $page++;
-//echo $page;exit;
-        $limit = $this->_context->limit ? $this->_context->limit : 15;
-
 //搜索
         $search_list_temp = array();
         $nickname = '';
@@ -120,9 +126,6 @@ class Controller_Singlerank extends Controller_Abstract
 //        dump(empty($activity_id));exit;
         if (isset($_GET['activity_id'])) {
             $activity_tag = addslashes(trim($_GET['activity_id']));
-            if (strlen($activity_tag)) {
-                array_push($search_list_temp, " activity_id like '%$activity_tag%'");
-            }
         }
         if (isset($_GET['nickname'])) {
             $nickname = addslashes(trim($_GET['nickname']));
@@ -131,15 +134,6 @@ class Controller_Singlerank extends Controller_Abstract
                 $activity_tag = addslashes(trim($_GET['activity_id']));
             }
 // $search_list = array();
-            if (strlen($nickname)) {
-                array_push($search_list_temp, " nickname like '%$nickname%'");
-            }
-            if (strlen($sex)) {
-                array_push($search_list_temp, " sex like '%$sex%'");
-            }
-            if (strlen($activity_tag)) {
-                array_push($search_list_temp, " activity_id like '%$activity_tag%'");
-            }
         }
         $sex = '';
         $openid = '';
@@ -156,8 +150,7 @@ class Controller_Singlerank extends Controller_Abstract
 //得到该用户可操作的新闻类型
 
 //-----------------------------------------------
-        $search_where = implode(' and ', $search_list_temp);
-        $this->_view['show'] = $show;
+//        $this->_view['show'] = $show;
 //        dump(isset($activity_id));exit;
 //        dump($activity_tag);
        $show_search = array();
@@ -168,20 +161,40 @@ class Controller_Singlerank extends Controller_Abstract
                 if(strstr($name, $nickname)) {
                     if($show[$key]['activity_id'] ==$activity_tag ) {
                         $show_search[$key] = $show[$key];
-                        $this->_view['show'] = $show_search;
+//                        $this->_view['show'] = $show_search;
                     }elseif($show[$key]['activity_id'] != $activity_tag ) {
-                        $this->_view['show'] = null;
+//                        $this->_view['show'] = null;
+                        $show_search = null;
                     }
                 }
             }elseif(empty($nickname)&&!empty($activity_tag)) {
                 if($show[$key]['activity_id'] ==$activity_tag ) {
                         $show_search[$key] = $show[$key];
-                        $this->_view['show'] = $show_search;
+//                        $this->_view['show'] = $show_search;
+
                 }elseif($show[$key]['activity_id'] != $activity_tag ) {
-                        $this->_view['show'] = null;
+                    $show_search = null;
+//                        $this->_view['show'] = null;
                     }
-             }
+             }elseif(empty($nickname)&&empty($activity_tag)) {
+                $show_search = $show;
+            }
         }
+
+        $page = $this->_context->page;
+        if($page ==0 ){
+            $page++;
+        }
+
+//        $total_count = count($show_search);
+//        $total_pages = ceil($total_count / $page_length);
+//        $current_page = $page;
+//        $page_list = range(1, $total_pages);
+//        $data = array_slice($show, ($current_page - 1) * $page_length, $page_length);
+//        $this->_view['total_pages'] = $total_pages;
+//        $this->_view['data'] = $show_search;
+//        $this->_view['page'] = $current_page;
+//        dump($_SERVER['PHP_SELF'] );exit;
 
 //        $result = $show;
 //        if(empty($activity_tag)&&!empty($nickname)){
@@ -230,7 +243,7 @@ class Controller_Singlerank extends Controller_Abstract
 //        }
 //        dump($show_search);
 
-        $q = Personnel::find($search_where)->order('id desc')->limitPage($page,$limit);
+        $q = Personnel::find()->order('id desc');
 //q1是查询activity的activity_id字段
         $q1 = Activity::find();
         $list1 = $q1->getAll()->toHashmap('id', 'activityname');
@@ -250,8 +263,21 @@ class Controller_Singlerank extends Controller_Abstract
 //        $this->_view['list'] = $list;
 //        dump($q->getPagination());exit;
         $this->_view['list1'] = $list1;
-        $this->_view['start'] = 0;
-        $this->_view['subject'] = "人员管理1";
+        $this->_view['subject'] = "摇动次数总排名";
+
+        $limit = 15;
+        $num = count($show_search);
+        $start = ($page-1)*$limit;
+        if(!empty($show_search)){
+            $listshow = array_slice($show_search,$start,$limit);
+            $this->_view['list'] = $listshow;
+        }
+
+        $help_string = new Helper_String();
+        $pager = $help_string->getPage($num,$limit,$page);
+        $this->_view['pager'] = $pager;
+
+        $this->_view['start'] = $start;
 
     }
 }

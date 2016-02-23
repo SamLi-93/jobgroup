@@ -26,14 +26,14 @@ class Person
     }
 
     function getYideng() {
-        $sql1 = 'SELECT openid, COUNT(openid) FROM erdeng GROUP BY openid';
+        $sql1 = 'SELECT openid, COUNT(openid) FROM yideng GROUP BY openid';
         $dbo = QDB::getConn();
         $questype1 = $dbo->getAll($sql1);
         return $questype1;
     }
 
     function getTedeng() {
-        $sql0 = 'SELECT openid, COUNT(openid) FROM erdeng GROUP BY openid';
+        $sql0 = 'SELECT openid, COUNT(openid) FROM tedeng GROUP BY openid';
         $dbo = QDB::getConn();
         $questype0 = $dbo->getAll($sql0);
         return $questype0;

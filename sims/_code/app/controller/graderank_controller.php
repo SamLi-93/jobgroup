@@ -36,7 +36,7 @@ class Controller_Graderank extends Controller_Abstract
 		$questype2 = Helper_Array::sortByCol($questype2, 'COUNT(openid)', SORT_DESC);
 		$questype3 = Helper_Array::sortByCol($questype3, 'COUNT(openid)', SORT_DESC);
 
-		for($i=0;$i<count($questype0);$i++) {
+		for ($i = 0; $i < count($questype0); $i++) {
 			$openid = $questype0[$i]['openid'];
 			$sql4 = "select nickname,activity_id,sex from user WHERE openid = '$openid'";
 			$dbo = QDB::getConn();
@@ -44,13 +44,13 @@ class Controller_Graderank extends Controller_Abstract
 			$activity_id = $result[0]['activity_id'];
 			$nickname = $result[0]['nickname'];
 			$sex = $result[0]['sex'];
-			$questype0[$i]['activity_id'] =$activity_id;
+			$questype0[$i]['activity_id'] = $activity_id;
 			$questype0[$i]['nickname'] = $nickname;
 			$questype0[$i]['sex'] = $sex;
 			$questype0[$i]['prize'] = '4';
 		}
 
-		for($i=0;$i<count($questype1);$i++) {
+		for ($i = 0; $i < count($questype1); $i++) {
 			$openid = $questype1[$i]['openid'];
 			$sql4 = "select nickname,activity_id,sex from user WHERE openid = '$openid'";
 			$dbo = QDB::getConn();
@@ -58,13 +58,13 @@ class Controller_Graderank extends Controller_Abstract
 			$activity_id = $result[0]['activity_id'];
 			$nickname = $result[0]['nickname'];
 			$sex = $result[0]['sex'];
-			$questype1[$i]['activity_id'] =$activity_id;
+			$questype1[$i]['activity_id'] = $activity_id;
 			$questype1[$i]['nickname'] = $nickname;
 			$questype1[$i]['sex'] = $sex;
 			$questype1[$i]['prize'] = '3';
 		}
 
-		for($i=0;$i<count($questype2);$i++) {
+		for ($i = 0; $i < count($questype2); $i++) {
 			$openid = $questype2[$i]['openid'];
 			$sql4 = "select nickname,activity_id,sex from user WHERE openid = '$openid'";
 			$dbo = QDB::getConn();
@@ -72,13 +72,13 @@ class Controller_Graderank extends Controller_Abstract
 			$activity_id = $result[0]['activity_id'];
 			$nickname = $result[0]['nickname'];
 			$sex = $result[0]['sex'];
-			$questype2[$i]['activity_id'] =$activity_id;
+			$questype2[$i]['activity_id'] = $activity_id;
 			$questype2[$i]['nickname'] = $nickname;
 			$questype2[$i]['sex'] = $sex;
 			$questype2[$i]['prize'] = '2';
 		}
 
-		for($i=0;$i<count($questype3);$i++) {
+		for ($i = 0; $i < count($questype3); $i++) {
 			$openid = $questype3[$i]['openid'];
 			$sql4 = "select nickname,activity_id,sex from user WHERE openid = '$openid'";
 			$dbo = QDB::getConn();
@@ -86,7 +86,7 @@ class Controller_Graderank extends Controller_Abstract
 			$activity_id = $result[0]['activity_id'];
 			$nickname = $result[0]['nickname'];
 			$sex = $result[0]['sex'];
-			$questype3[$i]['activity_id'] =$activity_id;
+			$questype3[$i]['activity_id'] = $activity_id;
 			$questype3[$i]['nickname'] = $nickname;
 			$questype3[$i]['sex'] = $sex;
 			$questype3[$i]['prize'] = '1';
@@ -99,13 +99,8 @@ class Controller_Graderank extends Controller_Abstract
 		$this->_view['questype1'] = $questype1;
 		$this->_view['questype2'] = $questype2;
 		$this->_view['questype3'] = $questype3;
-		$this->_view['arr'] = $arr;
+//		$this->_view['arr'] = $arr;
 
-		$page = (int)$this->_context->page;
-		if ($page == 0)
-			$page++;
-
-		$limit = $this->_context->limit ? $this->_context->limit : 15;
 
 //搜索
 		$search_list_temp = array();
@@ -135,73 +130,98 @@ class Controller_Graderank extends Controller_Abstract
 		$this->_view['search_prize'] = $search_prize;
 
 		$show_search = array();
-		foreach($arr as $key => $value) {
+		foreach ($arr as $key => $value) {
 			$name = $value['nickname'];
-			if(!empty($nickname)&&!empty($name)&&!empty($search_prize)) {
-				if(strstr($name,$nickname)) {
-					if($arr[$key]['activity_id'] == $activity_tag) {
-						if($arr[$key]['prize'] == $search_prize) {
+			if (!empty($nickname) && !empty($name) && !empty($search_prize)) {
+				if (strstr($name, $nickname)) {
+					if ($arr[$key]['activity_id'] == $activity_tag) {
+						if ($arr[$key]['prize'] == $search_prize) {
 							$show_search[$key] = $arr[$key];
-							$this->_view['arr'] = $show_search;
+//							$this->_view['arr'] = $show_search;
 						}
-					}elseif($arr[$key]['activity_id'] != $activity_tag  ) {
-						$this->_view['arr'] = null;
+					} elseif ($arr[$key]['activity_id'] != $activity_tag) {
+//						$this->_view['arr'] = null;
+						$show_search = null;
 					}
 				}
-			}elseif(empty($nickname)&&!empty($activity_tag)&&empty($search_prize)) {
-				if($arr[$key]['activity_id'] == $activity_tag ) {
+			} elseif (empty($nickname) && !empty($activity_tag) && empty($search_prize)) {
+				if ($arr[$key]['activity_id'] == $activity_tag) {
 					$show_search[$key] = $arr[$key];
-					$this->_view['arr'] = $show_search;
-				}elseif($arr[$key]['activity_id'] != $activity_tag ) {
-					$this->_view['arr'] = null;
+//					$this->_view['arr'] = $show_search;
+				} elseif ($arr[$key]['activity_id'] != $activity_tag) {
+//					$this->_view['arr'] = null;
+					$show_search =null;
 				}
-			}elseif(empty($nickname)&&!empty($activity_tag)&&!empty($search_prize)) {
-				if($arr[$key]['activity_id'] == $activity_tag && $search_prize == $arr[$key]['prize'] ) {
+			} elseif (empty($nickname) && !empty($activity_tag) && !empty($search_prize)) {
+				if ($arr[$key]['activity_id'] == $activity_tag && $arr[$key]['prize'] == $search_prize) {
 					$show_search[$key] = $arr[$key];
-					$this->_view['arr'] = $show_search;
+//					$this->_view['arr'] = $show_search;
+				} elseif ($arr[$key]['activity_id'] != $activity_tag) {
+//					$this->_view['arr'] = null;
+					$show_search = null;
 				}
-			}elseif(!empty($nickname)&&!empty($activity_tag)&&empty($search_prize)) {
-				if($arr[$key]['activity_id'] == $activity_tag  ){
-					if(strstr($name,$nickname)) {
+//				else{$this->_view['arr'] = null; }
+			} elseif (!empty($nickname) && !empty($activity_tag) && empty($search_prize)) {
+				if ($arr[$key]['activity_id'] == $activity_tag) {
+					if (strstr($name, $nickname)) {
 						$show_search[$key] = $arr[$key];
-						$this->_view['arr'] = $show_search;
+//						$this->_view['arr'] = $show_search;
 					}
-				}else {
-					$this->_view['arr'] = null;
+				} else {
+//					$this->_view['arr'] = null;
+					$show_search = null;
 				}
-			}elseif(!empty($nickname)&&empty($activity_tag)&&empty($search_prize)) {
-				if(strstr($name,$nickname)) {
+			} elseif (!empty($nickname) && empty($activity_tag) && empty($search_prize)) {
+				if (strstr($name, $nickname)) {
 					$show_search[$key] = $arr[$key];
-					$this->_view['arr'] = $show_search;
+//					$this->_view['arr'] = $show_search;
 				}
+			} elseif(empty($nickname) && empty($activity_tag) && empty($search_prize)) {
+				$show_search = $arr;
 			}
 		}
 
 
 //-----------------------------------------------
-		$search_where = implode(' and ', $search_list_temp);
+//		$search_where = implode(' and ', $search_list_temp);
 
-		$q = Personnel::find($search_where)->order('id desc')->limitPage($page, $limit);
+//		$q = Personnel::find($search_where)->order('id desc')->limitPage($page, $limit);
 //q1是查询activity的activity_id字段
-		$q1 = Activity::find()->limitPage($page, $limit);
+		$q1 = Activity::find();
 		$list1 = $q1->getAll()->toHashmap('id', 'activityname');
 // dump($list1);
 // dump($list1);exit;
 //------------------------------------------------------------------------
 // dump($list);exit;
-		$list = $q->getAll();
+//		$list = $q->getAll();
 // dump($q->getOne()->activity);exit();
 // dump($list);exit;
 //        dump($show);exit;
-		$this->_view['pager'] = $q->getPagination();
-		$this->_view['list'] = $list;
+//		$this->_view['pager'] = $q->getPagination();
+//		$this->_view['list'] = $list;
 
 //        dump($show);exit;
 		$this->_view['list1'] = $list1;
-		$this->_view['start'] = ($page - 1) * $limit;
-		$this->_view['subject'] = "人员管理1";
-	}
+//		$this->_view['start'] = ($page - 1) * $limit;
+		$this->_view['subject'] = "各奖项摇动次数统计";
 
+		$page = $this->_context->page;
+		if($page ==0 ) $page++;
+
+		$limit = 15;
+		$num = count($show_search);
+		$start = ($page-1)*$limit;
+		if(!empty($show_search)){
+			$listshow = array_slice($show_search,$start,$limit);
+			$this->_view['list'] = $listshow;
+		}else $this->_view['list'] = null;
+//		dump($show_search);
+		$help_string = new Helper_String();
+		$pager = $help_string->getPage($num,$limit,$page);
+		$this->_view['pager'] = $pager;
+		$this->_view['start'] = $start;
+//		dump($list1);exit;
+	}
 }
 
 

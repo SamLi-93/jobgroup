@@ -1,12 +1,7 @@
 <? $this->_extends("_layouts/main_layout"); ?>
 <? $this->_block("contents"); ?>
 <script type="text/javascript">
-<!--
-    function check() {
-        return confirm('确定删除吗？');
 
-    }
-//-->
 </script>
 <div class="row-fluid sortable" style="width:95%">		
     <div class="box span12">
@@ -52,26 +47,26 @@
                     </thead>
                     <tbody>
                     <?php
-                    //print_r($list);
-                    // dump($list[0]->activity);exit;
-                    foreach ($countArray as $i => $row) {
+                    if(!empty($list)){
+                    foreach ($list as $i => $row) {
 //                        dump($countArray);exit;
-//                        dump($list);exit;
+//                        dump($list[$i]['activity_id']);exit;
 //                         dump($row->activity->activityname);exit;
                         ?>
                         <tr>
                             <td><?php echo $i + $start + 1 ?></td>
                             <td><?php echo stripslashes(str_replace($nickname, '<font color=red>' . $nickname . '</font>', $row['nickname'])); ?></td>
                             <td><?php echo stripslashes(str_replace($openid, '<font color=red>' . $openid . '</font>', $row['openid'])); ?></td>
-                            <td><?php echo stripslashes(str_replace($list1[$row['activity_id']],  $list1[$row['activity_id']] , $list1[$row['activity_id']])); ?></td>
+                            <td><?php echo stripslashes(str_replace($list1[$list[$i]['activity_id']],  $list1[$list[$i]['activity_id']] , $list1[$list[$i]['activity_id']])); ?></td>
                             <td><?php echo stripslashes(str_replace($count, '<font color=red>' . $count . '</font>', ($row['count'])*5)); ?></td>
                         </tr>
-            <? } ?>
+            <? } }?>
                     </tbody>
                 </table>
 
             <br/>
-    <? $this->_control("pagination", "", array('pagination' => $pager)); ?>
+
+            <? $this->_control("pagination", "", array('pagination' => $pager)); ?>
 
         </div>
     </div>

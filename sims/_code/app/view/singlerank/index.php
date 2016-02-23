@@ -59,8 +59,8 @@
 //                    print_r($show);
                     // dump($list[0]->activity);exit;
 //                    dump($show);exit;
-                    if($show != null){
-                    foreach ($show as $i => $row) {
+                    if($list != null){
+                    foreach ($list as $i => $row) {
 //                        dump($i);
                         // dump($row->activity->activityname);exit;
                         ?>
@@ -93,7 +93,25 @@
                 </table>
 
             <br/>
-    <? $this->_control("pagination", "", array('pagination' => $pager)); ?>
+
+            <!--    <ul class="pagination" id="pager" action="" method="get">
+                <?php if($page>1){ ?>
+                <li><a  title="上一页" href="<?= $_SERVER['PHP_SELF'] ?>/page/<?= $page-1 ?>">上一页</a></li>
+                <? } ?>
+                <?php
+                for ($i = 1; $i <= $total_pages; $i++) {
+                if($i == $page){ ?>
+                <li class="active"><a><?php echo $i ?></a></li>
+                <?php } else{ ?>
+                  <li><a href="<?echo url('',array('page'=>$i))?>"><?php echo $i ?></a></li>
+                <?php } ?>
+                <? } ?>
+                <?php if($page<$total_pages){ ?>
+                 <li><a title="下一页" href="<?echo url('',array('page'=>$page+1))?>">下一页</a></li>
+                <?php } ?>
+            </ul>    -->
+
+            <? $this->_control("pagination", "", array('pagination' => $pager)); ?>
 
         </div>
     </div>

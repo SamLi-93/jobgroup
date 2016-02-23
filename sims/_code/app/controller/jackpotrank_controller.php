@@ -175,18 +175,22 @@ class Controller_Jackpotrank extends Controller_Abstract
 				if(strstr($name,$nickname)) {
 					if($countArray[$key]['activity_id'] == $activity_tag) {
 						$show_search[$key] = $countArray[$key];
-						$this->_view['countArray'] = $show_search;
+//						$this->_view['countArray'] = $show_search;
 					}elseif($countArray[$key]['activity_id'] != $activity_tag ) {
-						$this->_view['countArray'] = null;
+//						$this->_view['countArray'] = null;
+						$show_search = null;
 					}
 				}
 			}elseif(empty($nickname)&&!empty($activity_tag)) {
 				if($countArray[$key]['activity_id'] == $activity_tag ) {
 					$show_search[$key] = $countArray[$key];
-					$this->_view['countArray'] = $show_search;
+//					$this->_view['countArray'] = $show_search;
 				}elseif($show[$key]['activity_id'] != $activity_tag ) {
-					$this->_view['countArray'] = null;
+//					$this->_view['countArray'] = null;
+					$show_search = null;
 				}
+			} elseif(empty($nickname)&&empty($activity_tag)) {
+				$show_search = $countArray;
 			}
 		}
 
@@ -203,8 +207,24 @@ class Controller_Jackpotrank extends Controller_Abstract
 		$this->_view['list1'] = $list1;
 		$this->_view['pager'] = $q->getPagination();
 		$this->_view['start'] = 0;
-		$this->_view['subject'] = "中奖人员管理111";
+		$this->_view['subject'] = "中奖人员摇动次数统计";
 
+		$page = $this->_context->page;
+		if($page ==0 ) $page++;
+
+		$limit = 15;
+		$num = count($show_search);
+		$start = ($page-1)*$limit;
+		if(!empty($show_search)){
+			$listshow = array_slice($show_search,$start,$limit);
+			$this->_view['list'] = $listshow;
+		}else $this->_view['list'] = null;
+//		dump($show_search);
+		$help_string = new Helper_String();
+		$pager = $help_string->getPage($num,$limit,$page);
+		$this->_view['pager'] = $pager;
+		$this->_view['start'] = $start;
+//		dump($list1);exit;
 	}
 }
 
